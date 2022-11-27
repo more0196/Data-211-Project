@@ -30,6 +30,15 @@ Data<-Data_211_project%>%
   summarize(Average_Total=mean(`amount total`,na.rm = TRUE))
 
 Data
+Liquid<-Data_211_project%>%
+  summarize(Average_liquid=mean(liquid,na.rm = TRUE))
+
+Liquid
+
+Food<-Data_211_project%>%
+  summarize(Average_Food=mean(food,na.rm = TRUE))
+
+Food
 
 ggplot(Data_211_project,aes(x=Day, y=`amount total`))+geom_line()
 
@@ -42,6 +51,17 @@ ggplot(Data_211_project,aes(x=food))+geom_histogram(binwidth=3,color="black", fi
 ```
 
 ```{r}
+#Segment Caffeine Analysis
+
+#H0: mu = 226
+#Ha: mu > 226
+
+t.test(Data_211_project$`amount total`,mu=226, alternative ="greater")
+
+#There is insufficient evidence to reject the H0 that the subject's caffeine consumption is greater than the FDA recommended of 226
+
+t.test(Data_211_project$`amount total`,mu=400, alternative ="greater")
+
 #Total Caffeine Analysis
 
 #H0: mu = 400
@@ -49,7 +69,7 @@ ggplot(Data_211_project,aes(x=food))+geom_histogram(binwidth=3,color="black", fi
 
 t.test(Data_211_project$`amount total`,mu=400, alternative ="greater")
 
-#There is insufficient evidence to reject the H0 that the subject's caffeine consumption is greater than the FDA recommended of 400.
+#There is sufficient evidence to reject the H0 that the subject's caffeine consumption is greater than the FDA recommended of 226.
 ```
 ```{r}
 model1<-lm(`amount total`~liquid, data = Data_211_project)
@@ -62,8 +82,6 @@ ggplot(data = Data_211_project, aes(x =`amount total`, y=food))+geom_point()+geo
 model3 <- lm(`amount total`~liquid+food, data=Data_211_project )
 summary(model3)
 
-model4<- lm(`amount total`~liquid+food+liquid*food, data=Data_211_project )
-summary(model4)
 
 ```
 
